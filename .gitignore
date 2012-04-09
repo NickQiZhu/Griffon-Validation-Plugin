@@ -1,0 +1,11 @@
+# IDE files
+
+.idea
+*.iml
+
+# Temp files
+
+target
+out
+staging
+upgrade
