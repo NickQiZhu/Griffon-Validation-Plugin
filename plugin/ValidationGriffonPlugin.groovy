@@ -15,7 +15,7 @@
 
 class ValidationGriffonPlugin {
     // the plugin version
-    String version = '0.9'
+    String version = '0.9.1'
     // the version or versions of Griffon the plugin is designed for
     String griffonVersion = '0.9.5 > *'
     // the other plugins this plugin depends on
@@ -34,7 +34,7 @@ class ValidationGriffonPlugin {
     // URL where documentation can be found
     String documentation = 'http://griffon.codehaus.org/Validation+Plugin'
     // URL where source can be found
-    String source = 'https://svn.codehaus.org/griffon/plugins/griffon-validation/trunk/'
+    String source = 'https://github.com/NickQiZhu/griffon-validation-plugin'
 
     List authors = [
         [
