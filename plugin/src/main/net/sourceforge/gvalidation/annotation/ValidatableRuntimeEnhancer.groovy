@@ -17,8 +17,6 @@ package net.sourceforge.gvalidation.annotation
 
 import java.beans.PropertyChangeListener
 import net.sourceforge.gvalidation.util.MetaUtils
-import griffon.core.ApplicationHandler
-import griffon.util.ApplicationHolder
 import net.sourceforge.gvalidation.ValidationEnhancer
 
 /**
@@ -32,13 +30,14 @@ class ValidatableRuntimeEnhancer {
     }
 
     void enhance(model) {
+        // TODO check if obj implements griffon.core.Observable
         if (realTimeOn(model) && annotatedWithBindable(model)) {
             model.addPropertyChangeListener({e ->
                 if (e.propertyName != "errors") {
                     if (valueNotChanged(e) || isSetToBlankString(e) || isSetToZero(e))
                         return
 
-                    ApplicationHolder.application.execAsync {
+                    UIThreadManager.instance.executeAsync {
                         model.validate(e?.propertyName)
                     }
                 }

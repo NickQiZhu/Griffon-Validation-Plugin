@@ -16,7 +16,6 @@
 package net.sourceforge.gvalidation
 
 import net.sourceforge.gvalidation.util.MetaUtils
-import javax.swing.SwingUtilities
 
 /**
  * Created by nick.zhu
@@ -69,7 +68,7 @@ class Errors {
     }
 
     private def fireErrorChangedEventOnParent(Errors oldErrors) {
-        SwingUtilities.invokeLater {
+        UIThreadManager.instance.executeAsync {
             if (parent != null && hasPropertyChangeNotifier()) {
                 parent.setErrors(new Errors())
                 parent.setErrors(this)
@@ -113,7 +112,7 @@ class Errors {
     }
 
     private def fireFieldErrorAddedEvent(fieldError) {
-        SwingUtilities.invokeLater {
+        UIThreadManager.instance.executeAsync {
             errorListeners.each {ErrorListener listener ->
                 listener.onFieldErrorAdded(fieldError)
             }
@@ -157,7 +156,7 @@ class Errors {
         if (errors == null || errors.size() == 0)
             return
 
-        SwingUtilities.invokeLater {
+        UIThreadManager.instance.executeAsync {
             errorListeners.each {ErrorListener listener ->
                 listener.onFieldErrorRemoved(errors)
             }
