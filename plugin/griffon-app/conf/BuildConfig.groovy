@@ -47,8 +47,8 @@ griffon.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime' or 'test' scopes eg.
 
-        compile 'commons-lang:commons-lang:2.5'
-        compile 'commons-validator:commons-validator:1.3.1'
+        compile 'commons-lang:commons-lang:2.6'
+        compile 'commons-validator:commons-validator:1.4'
         compile 'oro:oro:2.0.8'
     }
 }

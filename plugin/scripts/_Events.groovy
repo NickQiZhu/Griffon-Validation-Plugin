@@ -17,32 +17,6 @@
  * @author nick.zhu
  */
 
-//def eventClosure1 = binding.variables.containsKey('eventCopyLibsEnd') ? eventCopyLibsEnd : {jardir->}
-//eventCopyLibsEnd = { jardir ->
-//    eventClosure1(jardir)
-//    if (!isPluginProject) {
-//        def pluginDir = getPluginDirForName('validation')
-//        if(pluginDir?.file?.exists()) {
-//            ant.fileset(dir: "${pluginDir.file}/lib/", includes: '*.jar').each {
-//                griffonCopyDist(it.toString(), jardir)
-//            }
-//        }
-//    }
-//}
-
-def eventClosure1 = binding.variables.containsKey('eventSetClasspath') ? eventSetClasspath : {cl->}
-eventSetClasspath = { cl ->
-    eventClosure1(cl)
-    if(compilingPlugin('validation')) return
-    griffonSettings.dependencyManager.flatDirResolver name: 'griffon-validation-plugin', dirs: "${validationPluginDir}/addon"
-    griffonSettings.dependencyManager.addPluginDependency('validation', [
-        conf: 'compile',
-        name: 'griffon-validation-addon',
-        group: 'org.codehaus.griffon.plugins',
-        version: validationPluginVersion
-    ])
-}
-
 eventCollectArtifacts = { artifactsInfo ->
     if(!artifactsInfo.find{ it.type == 'constraint' }) {
         artifactsInfo << [type: 'constraint', path: 'constraints', suffix: 'Constraint']
