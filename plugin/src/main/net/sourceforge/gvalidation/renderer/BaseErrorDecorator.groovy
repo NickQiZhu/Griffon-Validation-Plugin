@@ -19,8 +19,6 @@ import net.sourceforge.gvalidation.Errors
 import net.sourceforge.gvalidation.FieldError
 import net.sourceforge.gvalidation.ErrorListener
 
-import javax.swing.SwingUtilities
-
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
  */
