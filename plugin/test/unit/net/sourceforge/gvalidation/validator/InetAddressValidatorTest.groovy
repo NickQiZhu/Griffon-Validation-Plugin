@@ -25,7 +25,7 @@ class InetAddressValidatorTest extends GroovyTestCase {
 
         assertTrue("Should be a valid address", inetAddress.validate("codehaus.org", this, true))
         assertTrue("Should be a valid address", inetAddress.validate("127.0.0.1", this, true))
-        assertFalse("Should not be a valid address", inetAddress.validate("invalid", this, true))
+        assertFalse("Should not be a valid address", inetAddress.validate("#", this, true))
     }
 
 }
