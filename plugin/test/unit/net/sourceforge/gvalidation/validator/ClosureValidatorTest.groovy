@@ -19,6 +19,7 @@ import net.sourceforge.gvalidation.validator.ClosureValidator
 import net.sourceforge.gvalidation.ValidationEnhancer
 import net.sourceforge.gvalidation.models.ModelBean
 import net.sourceforge.gvalidation.BaseTestCase
+import net.sourceforge.gvalidation.models.AnnotatedModel
 
 /**
  * Created by nick.zhu
@@ -33,7 +34,7 @@ class ClosureValidatorTest extends BaseTestCase {
     }
     
     public void testErrorGeneration(){
-        def obj = generateModel()
+        def obj = new AnnotatedModel()
 
         ClosureValidator validator = new ClosureValidator()
 

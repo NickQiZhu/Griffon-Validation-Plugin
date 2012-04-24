@@ -24,7 +24,7 @@ import net.sourceforge.gvalidation.models.ModelBeanWithCallback
 class BeforeValidationCallbackTest extends BaseTestCase {
 
     public void testBeforeValidationCallback() {
-        def model = generateModel('ModelBeanWithCallback.groovy')
+        def model = new ModelBeanWithCallback()
 
         assertFalse "Callback should not have been invoked", model.callbackInvoked
 
@@ -34,7 +34,7 @@ class BeforeValidationCallbackTest extends BaseTestCase {
     }
 
     public void testBeforeValidationWithoutCallback() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         model.validate()
 

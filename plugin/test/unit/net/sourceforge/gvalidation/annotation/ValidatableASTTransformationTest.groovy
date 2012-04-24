@@ -18,6 +18,7 @@ package net.sourceforge.gvalidation.annotation
 import java.beans.PropertyChangeListener
 import net.sourceforge.gvalidation.BaseTestCase
 import net.sourceforge.gvalidation.Errors
+import net.sourceforge.gvalidation.models.AnnotatedModel
 
 /**
  * Created by nick.zhu
@@ -25,7 +26,7 @@ import net.sourceforge.gvalidation.Errors
 class ValidatableASTTransformationTest extends BaseTestCase {
 
     public void testValidateAllInjection() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         boolean result = model.validate()
 
@@ -35,7 +36,7 @@ class ValidatableASTTransformationTest extends BaseTestCase {
     }
 
     public void testSelectiveValidationInjection() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         boolean result = model.validate('email')
 
@@ -46,7 +47,7 @@ class ValidatableASTTransformationTest extends BaseTestCase {
     }
 
     public void testGoodValidateAll() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         model.id = "goodID"
         model.email = "someone@email.com"
@@ -59,7 +60,7 @@ class ValidatableASTTransformationTest extends BaseTestCase {
     }
 
     public void testGoodSelectiveValidation() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         model.email = "someone@email.com"
 
@@ -70,7 +71,7 @@ class ValidatableASTTransformationTest extends BaseTestCase {
     }
 
     public void testErrorPropertyChange(){
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         def firedEvent = false
         model.addPropertyChangeListener({e->
@@ -84,7 +85,7 @@ class ValidatableASTTransformationTest extends BaseTestCase {
     }
 
     public void testErrorGetterSetterInjection(){
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         def methods = model.metaClass.methods
 

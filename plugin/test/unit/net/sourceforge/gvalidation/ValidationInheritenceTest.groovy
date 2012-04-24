@@ -15,22 +15,26 @@
 
 package net.sourceforge.gvalidation
 
+import net.sourceforge.gvalidation.models.ChildModelBean
+import net.sourceforge.gvalidation.models.GrandChildModelBean
+
 /**
  * Created by nick.zhu
  */
 class ValidationInheritenceTest extends BaseTestCase {
 
     public void testBasicConstraintInheritence() {
-        def model = generateModel('ChildModelBean.groovy')
+        def model = new ChildModelBean()
 
         model.validate()
+        pause()
 
         assertTrue "Shoudl have errors", model.hasErrors()
         assertTrue "Id can not be null", model.errors.hasFieldErrors('id')
     }
 
     public void testConstraintOverrideWithStricterConstraint() {
-        def model = generateModel('ChildModelBean.groovy')
+        def model = new ChildModelBean()
 
         model.id = 1
         model.email = "" // override to not allow blank
@@ -38,13 +42,14 @@ class ValidationInheritenceTest extends BaseTestCase {
         model.zipCode = "123456"
 
         model.validate()
+        pause()
 
         assertTrue "Should have errors", model.hasErrors()
         assertTrue "Email can not be blank", model.errors.hasFieldErrors('email')
     }
 
     public void testConstraintOverrideWithRelaxedConstraint() {
-        def model = generateModel('ChildModelBean.groovy')
+        def model = new ChildModelBean()
 
         model.id = 1
         model.email = "email@email.com"
@@ -52,15 +57,17 @@ class ValidationInheritenceTest extends BaseTestCase {
         model.zipCode = "123" // override should not allow more relaxed zipcode
 
         model.validate()
+        pause()
 
         assertTrue "Shoudl have errors", model.hasErrors()
         assertTrue "Short zipCode should not be allowed", model.errors.hasFieldErrors('zipCode')
     }
 
     public void testBasicMultiLevelConstraintInheritence() {
-        def model = generateModel('GrandChildModelBean.groovy')
+        def model = new GrandChildModelBean()
 
         model.validate()
+        pause()
 
         assertTrue "Shoudl have errors", model.hasErrors()
         assertTrue "Id can not be null", model.errors.hasFieldErrors('id')

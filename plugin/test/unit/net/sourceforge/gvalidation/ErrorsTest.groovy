@@ -16,6 +16,7 @@
 package net.sourceforge.gvalidation
 
 import java.beans.PropertyChangeListener
+import net.sourceforge.gvalidation.models.AnnotatedModel
 
 /**
  * Created by nick.zhu
@@ -28,14 +29,14 @@ class ErrorsTest extends BaseTestCase {
         errors.rejectValue("field", "errorCode")
         errors.rejectValue("field2", "errorCode")
 
-        Thread.sleep(100)
+        pause()
 
         assertTrue "Should have error", errors.hasFieldErrors('field')
         assertTrue "Should have error", errors.hasFieldErrors('field2')
 
         errors.removeError('field')
 
-        Thread.sleep(100)
+        pause()
 
         assertFalse "Should not have error", errors.hasFieldErrors('field')
         assertTrue "Should have error", errors.hasFieldErrors('field2')
@@ -46,24 +47,24 @@ class ErrorsTest extends BaseTestCase {
 
         errors.reject("errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have error", errors.hasErrors()
 
         errors.clear()
 
-        Thread.sleep(100)
+        pause()
         assertFalse "Should not have any error", errors.hasErrors()
 
         errors.rejectValue("field", "errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have error", errors.hasErrors()
     }
 
     public void testRejectCausePropertyChangedEvent() {
         boolean fired = false
 
-        def parent = generateModel()
+        def parent = new AnnotatedModel()
 
         parent.addPropertyChangeListener('errors', {e ->
             fired = true
@@ -73,14 +74,14 @@ class ErrorsTest extends BaseTestCase {
         Errors errors = new Errors(parent)
         errors.reject("errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have fired property changed event", fired
     }
 
     public void testRejectValueCausePropertyChangedEvent() {
         boolean fired = false
 
-        def parent = generateModel()
+        def parent = new AnnotatedModel()
 
         parent.addPropertyChangeListener({
             e ->
@@ -91,14 +92,14 @@ class ErrorsTest extends BaseTestCase {
         Errors errors = new Errors(parent)
         errors.rejectValue('testField', "errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have fired property changed event", fired
     }
 
     public void testClearCausePropertyChangedEvent() {
         boolean fired = false
 
-        def parent = generateModel()
+        def parent = new AnnotatedModel()
 
         parent.addPropertyChangeListener({
             e ->
@@ -109,7 +110,7 @@ class ErrorsTest extends BaseTestCase {
         Errors errors = new Errors(parent)
         errors.clear()
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have fired property changed event", fired
     }
 
@@ -124,7 +125,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.reject("errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have global error", errors.hasGlobalErrors()
     }
 
@@ -133,7 +134,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.reject("errorCode", "defaultErrorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have global error", errors.hasGlobalErrors()
         errors.each {
             assertEquals "Default error code is not correct", "defaultErrorCode", it.defaultErrorCode
@@ -145,7 +146,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.reject("errorCode", [10, "arg2"])
 
-        Thread.sleep(100)
+        pause()
         def globalErrors = errors.getGlobalErrors()
 
         assertEquals "Error code is incorrect", globalErrors.first().errorCode, "errorCode"
@@ -158,7 +159,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.reject("errorCode", "defaultErrorCode", [10, "arg2"])
 
-        Thread.sleep(100)
+        pause()
         def globalErrors = errors.getGlobalErrors()
 
         assertEquals "Error code is incorrect", globalErrors.first().errorCode, "errorCode"
@@ -172,7 +173,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue("field", "errorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have field error", errors.hasFieldErrors()
         assertTrue "Field should have error", errors.hasFieldErrors("field")
     }
@@ -182,7 +183,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue("field", "errorCode", "defaultErrorCode")
 
-        Thread.sleep(100)
+        pause()
         assertTrue "Should have field error", errors.hasFieldErrors()
         assertTrue "Field should have error", errors.hasFieldErrors("field")
         errors.each {
@@ -195,7 +196,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue("field", "errorCode", [10, "arg2"])
 
-        Thread.sleep(100)
+        pause()
         def fieldError = errors.getFieldError("field")
 
         assertEquals "Field error field value is incorrect", fieldError.field, "field"
@@ -209,7 +210,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue("field", "errorCode", "defaultErrorCode", [10, "arg2"])
 
-        Thread.sleep(100)
+        pause()
         def fieldError = errors.getFieldError("field")
 
         assertEquals "Field error field value is incorrect", fieldError.field, "field"
@@ -226,7 +227,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue("field", "errorCode")
 
-        Thread.sleep(100)
+        pause()
 
         errors.each {
             if ("errorCode" == it.errorCode)
@@ -242,7 +243,7 @@ class ErrorsTest extends BaseTestCase {
         errors.rejectValue("field", "errorCode1")
         errors.rejectValue("field", "errorCode2")
 
-        Thread.sleep(100)
+        pause()
         def fieldErrors = errors.getFieldErrors("field")
 
         assertEquals("Multiple field errors should have been generated", 2, fieldErrors.size())
@@ -254,7 +255,7 @@ class ErrorsTest extends BaseTestCase {
         errors.reject("errorCode1")
         errors.reject("errorCode2")
 
-        Thread.sleep(100)
+        pause()
         def globalErrors = errors.getGlobalErrors()
 
         assertEquals("Multiple field errors should have been generated", 2, globalErrors.size())
@@ -290,7 +291,7 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue('email', 'emailErrorCode')
 
-        Thread.sleep(100)
+        pause()
         assertTrue('New field error was not notified', onFieldErrorAdded)
     }
 
@@ -306,12 +307,12 @@ class ErrorsTest extends BaseTestCase {
 
         errors.rejectValue('email', 'emailErrorCode')
 
-        Thread.sleep(100)
+        pause()
         errors.addListener(listener)
 
         errors.removeError('email')
 
-        Thread.sleep(100)
+        pause()
         assertTrue('Remove field error was not notified', onFieldErrorRemoved)
     }
 
@@ -328,12 +329,12 @@ class ErrorsTest extends BaseTestCase {
         errors.rejectValue('email', 'emailErrorCode1')
         errors.rejectValue('email', 'emailErrorCode2')
 
-        Thread.sleep(100)
+        pause()
         errors.addListener(listener)
 
         errors.removeError('email')
 
-        Thread.sleep(100)
+        pause()
         assertTrue('Remove field error was not notified', onFieldErrorRemoved)
     }
 

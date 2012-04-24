@@ -32,7 +32,7 @@ import net.sourceforge.gvalidation.models.AnnotatedModel
 class ValidationEnhancerTest extends BaseTestCase {
 
     public void testModelEnhancementReturn() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         def enhancer = ValidationEnhancer.enhance(model)
 
@@ -40,11 +40,12 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testModelConstraintInvocation() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
+        pause()
 
         assertFalse("Validation result should be false", result)
         assertTrue("Model should have error", model.hasErrors())
@@ -61,11 +62,12 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testErrorCorrection() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
+        pause()
 
         assertFalse("Validation result should be false", result)
 
@@ -77,7 +79,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testValidationWithNoConstraint() {
-        def model = generateModel('NoConstraintModelBean.groovy')
+        def model = new NoConstraintModelBean()
 
         ValidationEnhancer.enhance(model)
 
@@ -87,7 +89,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testValidationWithInvalidConstraint() {
-        def model = generateModel('InvalidConstraintModelBean.groovy')
+        def model = new InvalidConstraintModelBean()
 
         ValidationEnhancer.enhance(model)
 
@@ -100,7 +102,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testUnknownConstraintIsIgnored() {
-        def model = generateModel('UnknownConstraintModelBean.groovy')
+        def model = new UnknownConstraintModelBean()
 
         ValidationEnhancer.enhance(model)
 
@@ -110,7 +112,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testNullAndBlankTolerance() {
-        def model = generateModel('NullToleranceModelBean.groovy')
+        def model = new NullToleranceModelBean()
 
         ValidationEnhancer.enhance(model)
 
@@ -125,11 +127,12 @@ class ValidationEnhancerTest extends BaseTestCase {
                     return false
                 }])
 
-        def model = generateModel('CustomConstraintModelBean.groovy')
+        def model = new CustomConstraintModelBean()
 
         ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
+        pause()
 
         assertFalse "Custom validation should have failed", result
 
@@ -140,13 +143,14 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testFieldLevelValidation() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         model.email = 'invalidEmail'
 
         ValidationEnhancer.enhance(model)
 
         boolean result = model.validate(['email'])
+        pause()
 
         assertFalse "Field validation should have failed", result
 
@@ -160,13 +164,14 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testFieldLevelValidationWithMultipleExecution() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         model.email = 'invalidEmail'
 
         ValidationEnhancer.enhance(model)
 
         model.validate(['email'])
+        pause()
 
         boolean result = model.validate(['id'])
 
@@ -183,7 +188,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testFieldLevelValidationWithMultipleFields() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         model.email = 'invalidEmail'
 
@@ -191,7 +196,7 @@ class ValidationEnhancerTest extends BaseTestCase {
 
         boolean result = model.validate(['id', 'email'])
 
-        Thread.sleep(100)
+        pause()
         assertFalse "Field validation should have failed", result
 
         assertTrue model.errors.hasFieldErrors('id')
@@ -199,13 +204,15 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testFieldLevelValidationWithSingleString() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         model.email = 'invalidEmail'
 
         ValidationEnhancer.enhance(model)
 
         boolean result = model.validate('email')
+
+        pause()
 
         assertFalse "Field validation should have failed", result
 
@@ -214,17 +221,19 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testFieldLevelValidationShouldNotResetAllErrors() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         ValidationEnhancer.enhance(model)
 
         model.email = 'invalidEmail'
 
         model.validate()
+        pause()
 
         model.email = 'abc@abc.com'
 
         boolean result = model.validate(['email'])
+        pause()
 
         assertTrue "Field validation should not have failed", result
 
@@ -233,7 +242,7 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testEnhancement() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         assertEquals("Incorrect number of validate methods were synthesized", 2, model.metaClass.methods.count {it.name == 'validate'})
 
@@ -243,12 +252,13 @@ class ValidationEnhancerTest extends BaseTestCase {
     }
 
     public void testMultipleEnhance(){
-        def m1 = generateModel()
-        def m2 = generateModel()
+        def m1 = new AnnotatedModel()
+        def m2 = new AnnotatedModel()
 
         assertNotSame('Enhancer instances should not be the same', m1.__validationEnhancer, m2.__validationEnhancer)
 
         m2.validate()
+        pause()
 
         assertFalse("Model should have error", m1.hasErrors())
     }

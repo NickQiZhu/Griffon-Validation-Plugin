@@ -24,19 +24,8 @@ import org.codehaus.groovy.tools.ast.TransformTestHelper
  */
 abstract class BaseTestCase extends GroovyTestCase {
 
-    def generateModel(fileName = "AnnotatedModel.groovy") {
-        def file = new File("test/unit/net/sourceforge/gvalidation/models/${fileName}")
-        assert file.exists()
-
-        TransformTestHelper invoker = new TransformTestHelper(new ValidatableASTTransformation(), CompilePhase.PARSING)
-        def modelClass = invoker.parse(file)
-        def model = modelClass.newInstance()
-
-        return model
-    }
-
     def pause() {
-        Thread.sleep(300)
+        Thread.sleep(500)
     }
 
     def longPause() {

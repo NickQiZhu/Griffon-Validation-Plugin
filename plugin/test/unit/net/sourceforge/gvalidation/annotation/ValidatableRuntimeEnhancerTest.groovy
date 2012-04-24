@@ -19,6 +19,9 @@ import net.sourceforge.gvalidation.BaseTestCase
 import net.sourceforge.gvalidation.models.AnnotatedModel
 import griffon.util.ApplicationHolder
 import griffon.core.GriffonApplication
+import net.sourceforge.gvalidation.models.ModelBean
+import net.sourceforge.gvalidation.models.PlainModelBean
+import net.sourceforge.gvalidation.models.NoBindableModelBean
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
@@ -31,7 +34,7 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
     }
 
     void testModelRealTimeEnhancement() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
 
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
@@ -45,7 +48,7 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
     }
 
     void testModelWithoutRealTimeEnhancement() {
-        def model = generateModel('ModelBean.groovy')
+        def model = new ModelBean()
 
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
@@ -59,17 +62,17 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
     }
 
     void testModelWithoutAnnotationEnhancement() {
-        def model = generateModel('PlainModelBean.groovy')
+        def model = new PlainModelBean()
         ValidatableRuntimeEnhancer.instance.enhance(model)
     }
 
     void testModelWithoutBindableEnhancement() {
-        def model = generateModel('NoBindableModelBean.groovy')
+        def model = new NoBindableModelBean()
         ValidatableRuntimeEnhancer.instance.enhance(model)
     }
 
     void testRealTimeValidationShouldIgnoreInitialNullSetting() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         model.id = null
@@ -80,7 +83,7 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
     }
 
     void testRealTimeValidationShouldIgnoreInitialBlankSetting() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         model.id = ""
@@ -91,7 +94,7 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
     }
 
     void testRealTimeValidationShouldIgnoreInitialZeroSetting() {
-        def model = generateModel()
+        def model = new AnnotatedModel()
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         model.code = 0
