@@ -9,3 +9,5 @@ root {
         view = '*'
     }
 }
+
+root.'ValidationGriffonAddon'.addon=true

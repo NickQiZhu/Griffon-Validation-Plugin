@@ -39,4 +39,8 @@ abstract class BaseTestCase extends GroovyTestCase {
         Thread.sleep(300)
     }
 
+    def longPause() {
+        Thread.sleep(5000)
+    }
+
 }

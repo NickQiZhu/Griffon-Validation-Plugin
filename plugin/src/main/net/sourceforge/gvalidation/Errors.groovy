@@ -16,6 +16,7 @@
 package net.sourceforge.gvalidation
 
 import net.sourceforge.gvalidation.util.MetaUtils
+import griffon.core.UIThreadManager
 
 /**
  * Created by nick.zhu

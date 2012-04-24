@@ -18,6 +18,8 @@ package net.sourceforge.gvalidation.annotation
 import java.beans.PropertyChangeListener
 import net.sourceforge.gvalidation.util.MetaUtils
 import net.sourceforge.gvalidation.ValidationEnhancer
+import griffon.core.UIThreadManager
+import javax.swing.SwingUtilities
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)

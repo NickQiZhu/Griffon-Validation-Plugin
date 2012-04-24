@@ -32,22 +32,28 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
 
     void testModelRealTimeEnhancement() {
         def model = generateModel()
+
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         assertEquals('Property change listener is not registered', 1, model.propertyChangeListeners.size())
 
         model.email = "bademail"
 
+        longPause()
+
         assertTrue("Validation should have been performed", model.errors.hasFieldErrors('email'))
     }
 
     void testModelWithoutRealTimeEnhancement() {
         def model = generateModel('ModelBean.groovy')
+
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         assertEquals('Property change listener should not be registered', 0, model.propertyChangeListeners.size())
 
         model.email = "bademail"
+
+        pause()
 
         assertFalse("Validation should not have been performed", model.errors.hasFieldErrors('email'))
     }
@@ -68,6 +74,8 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
 
         model.id = null
 
+        pause()
+
         assertFalse("Validation should not have been performed", model.errors.hasFieldErrors('id'))
     }
 
@@ -77,6 +85,8 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
 
         model.id = ""
 
+        pause()
+
         assertFalse("Validation should not have been performed", model.errors.hasFieldErrors('id'))
     }
 
@@ -85,6 +95,8 @@ class ValidatableRuntimeEnhancerTest extends BaseTestCase {
         ValidatableRuntimeEnhancer.instance.enhance(model)
 
         model.code = 0
+
+        pause()
 
         assertFalse("Validation should not have been performed", model.errors.hasFieldErrors('code'))
     }
