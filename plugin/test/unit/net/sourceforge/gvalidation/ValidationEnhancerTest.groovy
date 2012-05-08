@@ -31,18 +31,8 @@ import net.sourceforge.gvalidation.models.AnnotatedModel
  */
 class ValidationEnhancerTest extends BaseTestCase {
 
-    public void testModelEnhancementReturn() {
-        def model = new ModelBean()
-
-        def enhancer = ValidationEnhancer.enhance(model)
-
-        assertTrue "Enhancer instance returned in incorrect", enhancer instanceof ValidationEnhancer
-    }
-
     public void testModelConstraintInvocation() {
         def model = new ModelBean()
-
-        ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
         pause()
@@ -64,8 +54,6 @@ class ValidationEnhancerTest extends BaseTestCase {
     public void testErrorCorrection() {
         def model = new ModelBean()
 
-        ValidationEnhancer.enhance(model)
-
         boolean result = model.validate()
         pause()
 
@@ -81,8 +69,6 @@ class ValidationEnhancerTest extends BaseTestCase {
     public void testValidationWithNoConstraint() {
         def model = new NoConstraintModelBean()
 
-        ValidationEnhancer.enhance(model)
-
         boolean result = model.validate()
 
         assertTrue("Validation result should be true", result)
@@ -90,8 +76,6 @@ class ValidationEnhancerTest extends BaseTestCase {
 
     public void testValidationWithInvalidConstraint() {
         def model = new InvalidConstraintModelBean()
-
-        ValidationEnhancer.enhance(model)
 
         try {
             boolean result = model.validate()
@@ -104,8 +88,6 @@ class ValidationEnhancerTest extends BaseTestCase {
     public void testUnknownConstraintIsIgnored() {
         def model = new UnknownConstraintModelBean()
 
-        ValidationEnhancer.enhance(model)
-
         boolean result = model.validate()
 
         assertTrue("Validation result should be true", result)
@@ -113,8 +95,6 @@ class ValidationEnhancerTest extends BaseTestCase {
 
     public void testNullAndBlankTolerance() {
         def model = new NullToleranceModelBean()
-
-        ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
 
@@ -128,8 +108,6 @@ class ValidationEnhancerTest extends BaseTestCase {
                 }])
 
         def model = new CustomConstraintModelBean()
-
-        ValidationEnhancer.enhance(model)
 
         boolean result = model.validate()
         pause()
@@ -146,8 +124,6 @@ class ValidationEnhancerTest extends BaseTestCase {
         def model = new ModelBean()
 
         model.email = 'invalidEmail'
-
-        ValidationEnhancer.enhance(model)
 
         boolean result = model.validate(['email'])
         pause()
@@ -167,8 +143,6 @@ class ValidationEnhancerTest extends BaseTestCase {
         def model = new ModelBean()
 
         model.email = 'invalidEmail'
-
-        ValidationEnhancer.enhance(model)
 
         model.validate(['email'])
         pause()
@@ -192,8 +166,6 @@ class ValidationEnhancerTest extends BaseTestCase {
 
         model.email = 'invalidEmail'
 
-        ValidationEnhancer.enhance(model)
-
         boolean result = model.validate(['id', 'email'])
 
         pause()
@@ -208,8 +180,6 @@ class ValidationEnhancerTest extends BaseTestCase {
 
         model.email = 'invalidEmail'
 
-        ValidationEnhancer.enhance(model)
-
         boolean result = model.validate('email')
 
         pause()
@@ -222,8 +192,6 @@ class ValidationEnhancerTest extends BaseTestCase {
 
     public void testFieldLevelValidationShouldNotResetAllErrors() {
         def model = new ModelBean()
-
-        ValidationEnhancer.enhance(model)
 
         model.email = 'invalidEmail'
 
@@ -246,16 +214,21 @@ class ValidationEnhancerTest extends BaseTestCase {
 
         assertEquals("Incorrect number of validate methods were synthesized", 2, model.metaClass.methods.count {it.name == 'validate'})
 
-        assertFalse("Model should have been enhanced", ValidationEnhancer.isNotEnhanced(model))
-
         assertTrue("Model should have validate method", MetaUtils.hasMethodOrClosure(model, "validate"))
     }
 
-    public void testMultipleEnhance(){
+    public void testMultipleEnhanceForErrors() {
         def m1 = new AnnotatedModel()
         def m2 = new AnnotatedModel()
 
-        assertNotSame('Enhancer instances should not be the same', m1.__validationEnhancer, m2.__validationEnhancer)
+        assertTrue('Error instances should not be the same', m1.__errors != m2.__errors)
+    }
+
+    public void testMultipleEnhance() {
+        def m1 = new AnnotatedModel()
+        def m2 = new AnnotatedModel()
+
+        assertTrue('Enhancer instances should not be the same', m1.__validationEnhancer != m2.__validationEnhancer)
 
         m2.validate()
         pause()

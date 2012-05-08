@@ -23,20 +23,9 @@ import net.sourceforge.gvalidation.util.MetaUtils
  * Created by nick.zhu
  */
 class ValidationEnhancer {
-    static final def VALIDATION_ENHANCER_PROPERTY_NAME = '__validationEnhancer'
+
     static final def BEFORE_VALIDATION_CALLBACK_NAME = 'beforeValidation'
     static final def CONSTRAINT_PROPERTY_NAME = "constraints"
-
-    static def enhance(bean) {
-        final def enhancer = new ValidationEnhancer(bean)
-        bean.metaClass."${VALIDATION_ENHANCER_PROPERTY_NAME}" = enhancer
-        return enhancer
-    }
-
-    protected static def isNotEnhanced(bean) {
-        def property = bean.metaClass.hasProperty(bean, VALIDATION_ENHANCER_PROPERTY_NAME)
-        return property == null || bean."${VALIDATION_ENHANCER_PROPERTY_NAME}" == null
-    }
 
     private List fields
 
@@ -44,10 +33,6 @@ class ValidationEnhancer {
 
     private ValidationEnhancer(bean) {
         model = bean
-
-        bean.metaClass.validate = { fields = null ->
-            doValidate(fields)
-        }
     }
 
     /**

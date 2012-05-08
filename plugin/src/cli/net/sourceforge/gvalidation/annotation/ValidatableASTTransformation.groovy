@@ -39,6 +39,7 @@ import net.sourceforge.gvalidation.Errors
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.ConstructorNode
+import net.sourceforge.gvalidation.ValidationEnhancer
 
 /**
  * Groovy AST transformation class that enhances any class
@@ -49,13 +50,20 @@ import org.codehaus.groovy.ast.ConstructorNode
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
 class ValidatableASTTransformation implements ASTTransformation {
 
+    private static final String VALIDATION_ENHANCER_PROPERTY_NAME = '__validationEnhancer'
     private static final String ERRORS_PROPERTY_NAME = '__errors'
 
     void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
         ClassNode targetClassNode = sourceUnit.getAST()?.classes.first()
 
         if (!alreadyAnnotatedBySuperClass(targetClassNode) && annotatedWithValidatable(targetClassNode)) {
-            injectConstructor(targetClassNode)
+            if (hasNoEnhancerField(targetClassNode)) {
+                injectEnhancerField(targetClassNode)
+            }
+
+            if (hasNoValidateMethod(targetClassNode)) {
+                injectValidateMethod(targetClassNode)
+            }
 
             if (hasNoErrorsField(targetClassNode)) {
                 injectErrorsField(targetClassNode)
@@ -91,6 +99,20 @@ class ValidatableASTTransformation implements ASTTransformation {
         }
 
         return validatableAnnotation != null
+    }
+
+    private boolean hasNoEnhancerField(ClassNode targetClassNode) {
+        return !targetClassNode.getField(VALIDATION_ENHANCER_PROPERTY_NAME)
+    }
+
+    private def injectEnhancerField(ClassNode targetClassNode) {
+        FieldNode enhancerField = new FieldNode(VALIDATION_ENHANCER_PROPERTY_NAME,
+                Opcodes.ACC_PROTECTED,
+                ClassHelper.make(ValidationEnhancer.class),
+                targetClassNode,
+                new ConstructorCallExpression(ClassHelper.make(ValidationEnhancer.class), new ArgumentListExpression(new VariableExpression('this')))
+        )
+        targetClassNode.addField(enhancerField)
     }
 
     private boolean hasNoErrorsField(ClassNode targetClassNode) {
@@ -171,17 +193,24 @@ class ValidatableASTTransformation implements ASTTransformation {
         ))
     }
 
-    private def injectConstructor(ClassNode targetClassNode) {
-        ConstructorNode constructorNode = new ConstructorNode(
+    private boolean hasNoValidateMethod(ClassNode targetClassNode) {
+        return !targetClassNode.hasMethod('validate', [new Parameter(ClassHelper.make(Object.class, false), "fields", ConstantExpression.NULL)] as Parameter[])
+    }
+
+    private def injectValidateMethod(ClassNode targetClassNode) {
+        targetClassNode.addMethod(new MethodNode(
+                'validate',
                 Opcodes.ACC_PUBLIC,
+                ClassHelper.Boolean_TYPE,
+                [new Parameter(ClassHelper.make(Object.class, false), "fields", ConstantExpression.NULL)] as Parameter[],
+                [] as ClassNode[],
                 new BlockStatement(
                         new AstBuilder().buildFromCode {
-                            net.sourceforge.gvalidation.ValidationEnhancer.enhance(this)
-                            return
+                            return this.__validationEnhancer.doValidate(fields)
                         },
                         new VariableScope()
-                ))
-        targetClassNode.addConstructor(constructorNode)
+                )
+        ))
     }
 
 }
