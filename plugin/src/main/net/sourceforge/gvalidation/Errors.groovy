@@ -85,7 +85,7 @@ class Errors {
     }
 
     private void fireErrorChangedEventOnParent(Errors oldErrors) {
-        UIThreadManager.getInstance().executeAsync(new Runnable() {
+        UIThreadManager.getInstance().executeSync(new Runnable() {
             public void run() {
                 if (parent != null && hasPropertyChangeNotifier()) {
                     parent.setErrors(new Errors());
@@ -136,7 +136,7 @@ class Errors {
     }
 
     private void fireFieldErrorAddedEvent(final FieldError fieldError) {
-        UIThreadManager.getInstance().executeAsync(new Runnable() {
+        UIThreadManager.getInstance().executeSync(new Runnable() {
             public void run() {
                 for (ErrorListener listener : errorListeners) {
                     listener.onFieldErrorAdded(fieldError);
