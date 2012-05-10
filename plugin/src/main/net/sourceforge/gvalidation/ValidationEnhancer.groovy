@@ -50,7 +50,7 @@ class ValidationEnhancer {
                 model.errors.clear()
             }else{
                 fields.each{
-                    model.errors.removeError(it)
+                    model.errors.removeErrorOnField(it)
                 }
             }
 

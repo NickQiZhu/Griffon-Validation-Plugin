@@ -34,7 +34,7 @@ class ErrorsTest extends BaseTestCase {
         assertTrue "Should have error", errors.hasFieldErrors('field')
         assertTrue "Should have error", errors.hasFieldErrors('field2')
 
-        errors.removeError('field')
+        errors.removeErrorOnField('field')
 
         pause()
 
@@ -115,7 +115,7 @@ class ErrorsTest extends BaseTestCase {
     }
 
     public void testRejectIgnoreNonObservableParent() {
-        Errors errors = new Errors(parent: [:])
+        Errors errors = new Errors(parent: [:] as ErrorContainer)
 
         errors.reject("errorCode")
     }
@@ -310,7 +310,7 @@ class ErrorsTest extends BaseTestCase {
         pause()
         errors.addListener(listener)
 
-        errors.removeError('email')
+        errors.removeErrorOnField('email')
 
         pause()
         assertTrue('Remove field error was not notified', onFieldErrorRemoved)
@@ -332,7 +332,7 @@ class ErrorsTest extends BaseTestCase {
         pause()
         errors.addListener(listener)
 
-        errors.removeError('email')
+        errors.removeErrorOnField('email')
 
         pause()
         assertTrue('Remove field error was not notified', onFieldErrorRemoved)

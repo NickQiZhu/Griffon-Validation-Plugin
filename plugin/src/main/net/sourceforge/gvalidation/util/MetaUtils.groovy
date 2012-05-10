@@ -21,7 +21,7 @@ package net.sourceforge.gvalidation.util
 final class MetaUtils {
     private def MetaUtils() {}
 
-    static def hasClosure(obj, closureName) {
+    static boolean hasClosure(obj, closureName) {
         if (obj?.hasProperty(closureName) && obj?."${closureName}" instanceof Closure)
             return true
         else
@@ -29,7 +29,7 @@ final class MetaUtils {
     }
 
 
-    static def hasMethod(obj, methodName) {
+    static boolean hasMethod(obj, methodName) {
         def method = obj?.metaClass?.methods?.find {
             it.name == methodName
         }
@@ -40,7 +40,7 @@ final class MetaUtils {
             return false
     }
 
-    static def hasMethodOrClosure(obj, name) {
+    static boolean hasMethodOrClosure(obj, name) {
         return hasMethod(obj, name) || hasClosure(obj, name)
     }
 

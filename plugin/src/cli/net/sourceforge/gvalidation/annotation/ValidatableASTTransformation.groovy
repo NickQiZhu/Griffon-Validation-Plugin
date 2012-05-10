@@ -40,6 +40,7 @@ import org.codehaus.groovy.ast.expr.ArgumentListExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.ConstructorNode
 import net.sourceforge.gvalidation.ValidationEnhancer
+import net.sourceforge.gvalidation.ErrorContainer
 
 /**
  * Groovy AST transformation class that enhances any class
@@ -57,29 +58,31 @@ class ValidatableASTTransformation implements ASTTransformation {
         ClassNode targetClassNode = sourceUnit.getAST()?.classes.first()
 
         if (!alreadyAnnotatedBySuperClass(targetClassNode) && annotatedWithValidatable(targetClassNode)) {
-            if (hasNoEnhancerField(targetClassNode)) {
+            targetClassNode.addInterface(ClassHelper.make(ErrorContainer.class));
+
+//            if (hasNoEnhancerField(targetClassNode)) {
                 injectEnhancerField(targetClassNode)
-            }
+//            }
 
-            if (hasNoValidateMethod(targetClassNode)) {
+//            if (hasNoValidateMethod(targetClassNode)) {
                 injectValidateMethod(targetClassNode)
-            }
+//            }
 
-            if (hasNoErrorsField(targetClassNode)) {
+//            if (hasNoErrorsField(targetClassNode)) {
                 injectErrorsField(targetClassNode)
-            }
+//            }
 
-            if (hasNoGetErrorsMethod(targetClassNode)) {
+//            if (hasNoGetErrorsMethod(targetClassNode)) {
                 injectGetErrorsMethod(targetClassNode)
-            }
+//            }
 
-            if (hasNoSetErrorsMethod(targetClassNode)) {
+//            if (hasNoSetErrorsMethod(targetClassNode)) {
                 injectSetErrorsMethod(targetClassNode)
-            }
+//            }
 
-            if (hasNoHasErrorsMethod(targetClassNode)) {
+//            if (hasNoHasErrorsMethod(targetClassNode)) {
                 injectHasErrorsMethod(targetClassNode)
-            }
+//            }
         }
     }
 
