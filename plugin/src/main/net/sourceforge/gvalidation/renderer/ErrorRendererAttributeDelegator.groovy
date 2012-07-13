@@ -16,6 +16,7 @@
 package net.sourceforge.gvalidation.renderer
 
 import net.sourceforge.gvalidation.Errors
+import griffon.plugins.i18n.MessageSourceHolder
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
@@ -43,7 +44,7 @@ class ErrorRendererAttributeDelegator {
                     node,
                     reader.getRenderStyles(),
                     reader.getErrorField(),
-                    app.messageSource
+                    MessageSourceHolder.instance.messageSource
             )
         }
     }

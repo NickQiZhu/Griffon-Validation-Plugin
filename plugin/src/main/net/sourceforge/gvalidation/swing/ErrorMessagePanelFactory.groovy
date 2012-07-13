@@ -15,14 +15,14 @@
 
 package net.sourceforge.gvalidation.swing
 
-import griffon.util.ApplicationHolder
+import griffon.plugins.i18n.MessageSourceHolder
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
  */
 class ErrorMessagePanelFactory extends AbstractFactory{
     def newInstance(FactoryBuilderSupport builder, name, value, Map attributes) {
-        return new ErrorMessagePanel(builder.app.messageSource)
+        return new ErrorMessagePanel(MessageSourceHolder.instance.messageSource)
     }
 
 }

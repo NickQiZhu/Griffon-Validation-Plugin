@@ -1,6 +1,7 @@
 import static java.awt.BorderLayout.*
 import net.sourceforge.gvalidation.swing.ErrorMessagePanel
 import org.apache.commons.lang.NumberUtils
+import griffon.plugins.i18n.*
 
 actions {
     action(id: 'submitAction',
@@ -107,7 +108,7 @@ window = application(title: 'demo',
 
         panel(name: 'Annotation Driven Validation') {
             borderLayout()
-            container(new ErrorMessagePanel(messageSource),
+            container(new ErrorMessagePanel(MessageSourceHolder.instance.messageSource),
                     id: 'errorMessagePanelTab2', constraints: NORTH,
                     errors: bind(source: controller.serverParameter, 'errors'))
 
@@ -126,7 +127,7 @@ window = application(title: 'demo',
 
         panel(name: 'Inheritence and Constraints') {
             borderLayout()
-            container(new ErrorMessagePanel(messageSource),
+            container(new ErrorMessagePanel(MessageSourceHolder.instance.messageSource),
                     id: 'errorMessagePanelTab3', constraints: NORTH,
                     errors: bind(source: controller.protocolSpecificServerParameter, 'errors'))
 

@@ -15,7 +15,7 @@
 
 package net.sourceforge.gvalidation.util
 
-import org.springframework.context.NoSuchMessageException
+import griffon.plugins.i18n.NoSuchMessageException
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
