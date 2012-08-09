@@ -21,10 +21,9 @@ import net.sourceforge.gvalidation.validator.RangeValidator
  * Created by nick.zhu
  */
 class RangeValidatorTest extends GroovyTestCase {
+    private RangeValidator range = new RangeValidator()
 
     public void testRangeValidation() {
-        RangeValidator range = new RangeValidator()
-
         assertTrue("Should be valid", range.validate(5, this, 0..10))
         assertFalse("Should not be valid", range.validate(5, this, 0..<5))
 
@@ -37,10 +36,14 @@ class RangeValidatorTest extends GroovyTestCase {
 
     // tracker bug #2983281
     public void testRangeValidationWithInt() {
-        RangeValidator range = new RangeValidator()
-
         assertTrue("Should be valid", range.validate(5, this, 1..65535))
-        assertFalse("Should not be valid", range.validate(-5, this, 1..65535))  
+        assertFalse("Should not be valid", range.validate(-5, this, 1..65535))
+    }
+
+    public void testRangeWithZero() {
+        assertFalse("Should not be valid", range.validate(0, this, 1..10))
+        assertFalse("Should not be valid", range.validate(0, this, -10..<0))
+        assertTrue("Should be valid", range.validate(0, this, -10..0))
     }
 
 }
