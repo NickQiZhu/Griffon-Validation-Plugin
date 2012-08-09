@@ -27,7 +27,7 @@ class MaxSizeValidator extends AbstractValidator {
         
         def valid = false
 
-        if (maxSize) {
+        if (maxSize != null) {
             def actualSize = 0
 
             property.each { actualSize++ }
