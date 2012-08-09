@@ -65,7 +65,8 @@ class MinValidatorTest extends GroovyTestCase {
     }
 
     public void testZero() {
-        assertTrue("Should be valid", (boolean) min.validate(1, this, 0))
+        assertTrue("1 should be > 0", (boolean) min.validate(1, this, 0))
+        assertFalse("-1 should be < 0", (boolean) min.validate(-1, this, 0))
     }
 
 }

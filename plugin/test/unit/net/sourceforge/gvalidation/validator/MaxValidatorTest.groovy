@@ -23,9 +23,9 @@ import net.sourceforge.gvalidation.validator.MaxValidator
 
 class MaxValidatorTest extends GroovyTestCase {
 
-    public void testMaxlValidation() {
-        MaxValidator max = new MaxValidator()
+    private MaxValidator max = new MaxValidator()
 
+    public void testMaxlValidation() {
         checkNulls(max)
 
         validateWithNumbers(max)
@@ -54,6 +54,11 @@ class MaxValidatorTest extends GroovyTestCase {
     private def checkNulls(MaxValidator max) {
         assertFalse("Should not be valid", (boolean) max.validate("blahblah", this, null))
         assertTrue("Should be valid", (boolean) max.validate(null, this, 80))
+    }
+
+    public void testZero(){
+        assertFalse("2 should be > 0", max.validate(2, this, 0))
+        assertTrue("-2 should be < 0", max.validate(-2, this, 0))
     }
 
 }
