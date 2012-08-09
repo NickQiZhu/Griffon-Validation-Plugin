@@ -17,4 +17,4 @@ log4j = {
 
 i18n.basename = 'messages'
 i18n.basenames = ['messages']
-i18n.provider = 'i18n-support'
+i18n.provider = 'i18n'

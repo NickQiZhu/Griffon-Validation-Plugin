@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder
 import net.sourceforge.gvalidation.swing.ErrorMessagePanel
 import net.sourceforge.gvalidation.Errors
 import net.sourceforge.gvalidation.BaseTestCase
-import griffon.plugins.i18n.NoSuchMessageException
+import org.springframework.context.NoSuchMessageException
 
 /**
  * Created by nick.zhu

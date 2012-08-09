@@ -19,7 +19,7 @@ class ValidationGriffonPlugin {
     // the version or versions of Griffon the plugin is designed for
     String griffonVersion = '0.9.5 > *'
     // the other plugins this plugin depends on
-    Map dependsOn = ['i18n-support':'0.2']
+    Map dependsOn = ['i18n':'0.6']
     // resources that are included in plugin packaging
     List pluginIncludes = []
     // the plugin license
