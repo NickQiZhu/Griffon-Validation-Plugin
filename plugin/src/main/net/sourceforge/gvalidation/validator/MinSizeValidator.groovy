@@ -23,12 +23,12 @@ class MinSizeValidator extends AbstractValidator {
 
     @Override
     def validate(property, bean, minSize) {
-        if(!property)
+        if(property == null || property == '')
             return true
         
         def valid = true
 
-        if (minSize) {
+        if (minSize != null) {
             def actualSize = 0
 
             property?.each { actualSize++ }

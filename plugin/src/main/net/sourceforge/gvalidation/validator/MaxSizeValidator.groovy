@@ -22,7 +22,7 @@ class MaxSizeValidator extends AbstractValidator {
 
     @Override
     def validate(property, bean, maxSize) {
-        if(!property)
+        if(property == null)
             return true
         
         def valid = false

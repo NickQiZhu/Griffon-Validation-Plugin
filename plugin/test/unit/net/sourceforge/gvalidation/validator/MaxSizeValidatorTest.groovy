@@ -22,10 +22,9 @@ import net.sourceforge.gvalidation.validator.MaxSizeValidator
  */
 
 class MaxSizeValidatorTest extends GroovyTestCase {
+private    MaxSizeValidator maxSize = new MaxSizeValidator()
 
     public void testMaxSizeValidation() {
-        MaxSizeValidator maxSize = new MaxSizeValidator()
-
         assertFalse("Should not be valid", (boolean) maxSize.validate("blahblah", this, null))
         assertTrue("Should be valid, since null is considered 0 length", (boolean) maxSize.validate(null, this, 5))
 
@@ -34,6 +33,11 @@ class MaxSizeValidatorTest extends GroovyTestCase {
 
         assertFalse("Should not be valid", (boolean) maxSize.validate(['a', 'b', 'c'], this, 2))
         assertTrue("Should be valid", (boolean) maxSize.validate(['a', 'b'], this, 3))
+    }
+
+    public void testMaxSizeZero(){
+        assertFalse("Should not be valid", (boolean) maxSize.validate(['a', 'b', 'c'], this, 0))
+        assertTrue("Should be valid", (boolean) maxSize.validate([], this, 0))
     }
 
 }

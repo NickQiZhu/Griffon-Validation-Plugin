@@ -22,10 +22,9 @@ import net.sourceforge.gvalidation.validator.MinSizeValidator
  */
 
 class MinSizeValidatorTest extends GroovyTestCase {
+private     MinSizeValidator minSize = new MinSizeValidator()
 
     public void testMinSizeValidation() {
-        MinSizeValidator minSize = new MinSizeValidator()
-
         assertTrue("Should be valid", (boolean) minSize.validate("blahblah", this, null))
         assertTrue("Should ignore null", (boolean) minSize.validate(null, this, 5))
 
@@ -34,6 +33,20 @@ class MinSizeValidatorTest extends GroovyTestCase {
 
         assertTrue("Should be valid", (boolean) minSize.validate(['a', 'b', 'c'], this, 2))
         assertFalse("Should not be valid", (boolean) minSize.validate(['a', 'b'], this, 3))
+    }
+
+    public void testMinSizeValidationWithZero(){
+        assertTrue("Should be valid", (boolean) minSize.validate(['a', 'b', 'c'], this, 0))
+        assertTrue("Should be valid", (boolean) minSize.validate([], this, 0))
+        assertFalse("Should not be valid", (boolean) minSize.validate([], this, 1))
+    }
+
+    public void testNullTolerance(){
+        assertTrue("Should be valid", minSize.validate(null, this, 10))
+    }
+
+    public void testBlankTolerance(){
+        assertTrue("Should be valid", minSize.validate('', this, 10))
     }
 
 }

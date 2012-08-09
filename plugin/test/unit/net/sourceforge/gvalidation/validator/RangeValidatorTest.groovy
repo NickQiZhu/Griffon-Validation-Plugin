@@ -46,4 +46,12 @@ class RangeValidatorTest extends GroovyTestCase {
         assertTrue("Should be valid", range.validate(0, this, -10..0))
     }
 
+    public void testNullTolerance(){
+        assertTrue("Should be valid", range.validate(null, this, 1..10))
+    }
+
+    public void testBlankTolerance(){
+        assertTrue("Should be valid", range.validate('', this, 1..10))
+    }
+
 }

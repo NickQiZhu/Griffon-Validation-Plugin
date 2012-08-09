@@ -22,7 +22,7 @@ class RangeValidator extends AbstractValidator {
 
     @Override
     def validate(value, bean, input){
-        if(value == null)
+        if(value == null || value == '')
             return true
 
         def valid = false
