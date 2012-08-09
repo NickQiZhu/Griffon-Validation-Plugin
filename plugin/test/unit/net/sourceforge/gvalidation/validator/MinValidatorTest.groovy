@@ -22,10 +22,9 @@ import net.sourceforge.gvalidation.validator.MinValidator
  */
 
 class MinValidatorTest extends GroovyTestCase {
+    private MinValidator min = new MinValidator()
 
     public void testMinValidation() {
-        MinValidator min = new MinValidator()
-
         checkNulls(min)
 
         validateWithNumbers(min)
@@ -57,16 +56,16 @@ class MinValidatorTest extends GroovyTestCase {
     }
 
     public void testBlanks() {
-        MinValidator min = new MinValidator()
-        
         assertTrue("Should be valid", (boolean) min.validate("", this, 1))
     }
 
     // bug #2984137
     public void testLessThanMin() {
-        MinValidator min = new MinValidator()
-
         assertFalse("Should not be valid", (boolean) min.validate(0, this, 1))
+    }
+
+    public void testZero() {
+        assertTrue("Should be valid", (boolean) min.validate(1, this, 0))
     }
 
 }

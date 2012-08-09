@@ -15,7 +15,7 @@
 
 class ValidationGriffonPlugin {
     // the plugin version
-    String version = '1.0'
+    String version = '1.0.1'
     // the version or versions of Griffon the plugin is designed for
     String griffonVersion = '0.9.5 > *'
     // the other plugins this plugin depends on
