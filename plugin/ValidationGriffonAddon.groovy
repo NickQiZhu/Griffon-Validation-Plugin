@@ -32,7 +32,7 @@ class ValidationGriffonAddon {
         ConstraintRepository.instance.initialize(app)
     }
 
-    def attributeDelegates = [
+    List attributeDelegates = [
             {builder, node, attributes ->
                 def attributeDelegator = new ErrorRendererAttributeDelegator()
 
@@ -42,12 +42,12 @@ class ValidationGriffonAddon {
             }
     ]
 
-    def factories = [
+    Map factories = [
             errorIcon: new ErrorIconFactory(),
             errorMessages: new ErrorMessagePanelFactory()
     ]
 
-    def events = [
+    Map events = [
             InitializeMVCGroup: { configuration, group ->
                 def model = group.model
                 ValidatableRuntimeEnhancer.instance.enhance(model)

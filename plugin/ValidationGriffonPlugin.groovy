@@ -15,11 +15,11 @@
 
 class ValidationGriffonPlugin {
     // the plugin version
-    String version = '1.0.1'
+    String version = '1.0.2-SNAPSHOT'
     // the version or versions of Griffon the plugin is designed for
-    String griffonVersion = '0.9.5 > *'
+    String griffonVersion = '1.1.0 > *'
     // the other plugins this plugin depends on
-    Map dependsOn = ['i18n':'0.6']
+    Map dependsOn = [:]
     // resources that are included in plugin packaging
     List pluginIncludes = []
     // the plugin license

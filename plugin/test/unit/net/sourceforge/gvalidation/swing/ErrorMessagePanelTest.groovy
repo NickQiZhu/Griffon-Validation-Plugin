@@ -18,10 +18,9 @@ package net.sourceforge.gvalidation.swing
 import javax.swing.JLabel
 import javax.swing.border.CompoundBorder
 import javax.swing.border.EmptyBorder
-import net.sourceforge.gvalidation.swing.ErrorMessagePanel
 import net.sourceforge.gvalidation.Errors
 import net.sourceforge.gvalidation.BaseTestCase
-import org.springframework.context.NoSuchMessageException
+import griffon.core.i18n.NoSuchMessageException
 
 /**
  * Created by nick.zhu
