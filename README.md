@@ -1,3 +1,6 @@
+Griffon Validation Plugin
+=========================
+
 GValidation is a validation plugin for Griffon - A Grails like application 
 framework for developing desktop applications in Groovy. Like most part of 
 the Griffon framework GValidation's syntax and usage closely resemble its 
@@ -9,4 +12,5 @@ thus this plugin is designed to work with Griffon models as well as any
 POGOs.
 
 GValidation is written mainly in Groovy while retaining most of the syntax 
-of Grails constraints support.
+of Grails constraints support. For more information please checkout our [wiki
+page](http://griffon.codehaus.org/Validation+Plugin)
