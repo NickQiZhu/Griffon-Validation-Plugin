@@ -184,7 +184,7 @@ class Errors {
         if (errors == null || errors.size() == 0)
             return;
 
-        UIThreadManager.getInstance().executeAsync(new Runnable() {
+        UIThreadManager.getInstance().executeSync(new Runnable() {
             public void run() {
                 for (ErrorListener listener : errorListeners) {
                     listener.onFieldErrorRemoved(errors);
