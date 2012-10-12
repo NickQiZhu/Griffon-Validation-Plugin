@@ -16,7 +16,6 @@
 package net.sourceforge.gvalidation.renderer
 
 import net.sourceforge.gvalidation.Errors
-import griffon.plugins.i18n.MessageSourceHolder
 
 /**
  * @author Nick Zhu (nzhu@jointsource.com)
@@ -37,14 +36,13 @@ class ErrorRendererAttributeDelegator {
 
         if (reader.isConfigured()) {
             def model = builder.model
-            Errors errors = model.errors
 
             errorRenderer.register(
                     model,
                     node,
                     reader.getRenderStyles(),
                     reader.getErrorField(),
-                    MessageSourceHolder.instance.messageSource
+                    app
             )
         }
     }
