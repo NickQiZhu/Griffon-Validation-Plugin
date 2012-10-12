@@ -28,10 +28,10 @@ class MaxValidator extends AbstractValidator {
         def valid = false
 
         if(max != null && isSameType(property, max)){
-            valid = property < max
+            valid = property <= max
         }
 
-        if(!property)
+        if(property == null)
             valid = true
 
         return valid

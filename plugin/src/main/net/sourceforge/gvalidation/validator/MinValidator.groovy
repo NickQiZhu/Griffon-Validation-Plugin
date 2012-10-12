@@ -28,7 +28,7 @@ class MinValidator extends AbstractValidator {
         def valid = false
 
         if(min != null && isSameType(property, min)){
-            valid = property > min
+            valid = property >= min
         }
 
         if(min == null)

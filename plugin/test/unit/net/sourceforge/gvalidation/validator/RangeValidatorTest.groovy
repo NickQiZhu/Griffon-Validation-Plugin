@@ -54,4 +54,8 @@ class RangeValidatorTest extends GroovyTestCase {
         assertTrue("Should be valid", range.validate('', this, 1..10))
     }
 
+    public void testMinOne(){
+        assertTrue("Should be valid", range.validate(1, this, 1..10))
+    }
+
 }

@@ -61,4 +61,8 @@ class MaxValidatorTest extends GroovyTestCase {
         assertTrue("-2 should be < 0", max.validate(-2, this, 0))
     }
 
+    public void testOne(){
+        assertTrue("1 should be >= 1", max.validate(1, this, 1))
+    }
+
 }
